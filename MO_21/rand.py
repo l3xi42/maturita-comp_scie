@@ -2,19 +2,20 @@ def policko(size_rect, x, y, vypln, fil, pismeno):
     canvas.create_rectangle(x, y, x+size_rect, y+size_rect, fill = fil, outline="black")
 
     if vypln:
-        canvas.create_text(x + (size_rect)//2, (size_rect)//2 + y, text=pismeno)
+        canvas.create_text(x + (size_rect)/2, (size_rect)/2 + y, text=pismeno)
 
-def krizovka(size_rect, x, y,slova, riadky, max_L, max_R):
+def krizovka(size_rect, x, y,slova, riadky, vypln):
     for i in range(len(riadky)):
         index, slovo = slova[i]
         for j in range(len(slovo)):
-            fil = "white" if index - 1 == j else "dark grey"
-            policko(size_rect, x + size_rect * (max_L - index + 1 + j), y + i * size_rect, False, fil, slovo[j])
-            policko(size_rect, x +(2*max_L + max_R + 2 - index + j) * size_rect, y + i * size_rect, True, fil, slovo[j])
+            fil = "dark grey" if index - 1 == j else "light grey"
+            policko(size_rect, x + size_rect * (- index + 1 + j), y + i * size_rect, vypln, fil, slovo[j])
+    
 
 import tkinter
-with open("krizovka1-2.txt", "r") as subor:
+with open("krizovky1-1.txt", "r") as subor:
     riadky = subor.readlines()
+
 
 size_rect, x, y = (int(x) for x in input().split())
 
@@ -29,5 +30,7 @@ for i in range(len(riadky)):
     max_R = max(len(slova[i][1]) - slova[i][0], max_R)
 canvas = tkinter.Canvas(width=10000, height=10000)
 canvas.pack()
-krizovka(size_rect, x, y,slova, riadky, max_L, max_R)
+krizovka(size_rect, x + max_L * size_rect, y,slova, riadky, False)
+krizovka(size_rect, x + (2 * max_L + max_R + 2) * size_rect, y,slova, riadky, True)
 canvas.mainloop()
+krizovka
